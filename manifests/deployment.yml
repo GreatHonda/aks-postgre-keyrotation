@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: greathondaakspostgrekeyrotation 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greathondaakspostgrekeyrotation
+  template:
+    metadata:
+      labels:
+        app: greathondaakspostgrekeyrotation 
+    spec:
+      containers:
+        - name: greathondaakspostgrekeyrotation 
+          image: akspostgrekeyrotation.azurecr.io/greathondaakspostgrekeyrotation
+          ports:
+          - containerPort: 80
