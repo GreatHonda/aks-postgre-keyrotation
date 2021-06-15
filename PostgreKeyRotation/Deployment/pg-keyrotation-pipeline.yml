@@ -25,12 +25,12 @@ stages:
       displayName: 'Activate Inactive Role'
       inputs:
         failOnStandardError: true
-        azureSubscription: '<azure-subscription-id>'
+        azureSubscription: '48378c67-68a4-4f11-9dfb-eecdddf3a006'
         scriptType: 'bash'
         scriptLocation: 'scriptPath'
         scriptPath: '$(System.DefaultWorkingDirectory)/PostgreKeyRotation/Deployment/scripts/pg-rotate-keys.sh'
         workingDirectory: '$(System.DefaultWorkingDirectory)/PostgreKeyRotation/Deployment/scripts'
-        arguments: '"$(currentActiveRole)" "<database-server-name>" "<database-name>" "<database-admin-role>"'
+        arguments: '"$(currentActiveRole)" "samplepostgre01.postgres.database.azure.com" "samplepostgre01" "Azureuser"'
 
 - stage: DeployStaging
   dependsOn:
@@ -60,12 +60,12 @@ stages:
       displayName: 'Deploy Staging'
       inputs:
         failOnStandardError: true
-        azureSubscription: '<azure-subscription-id>'
+        azureSubscription: '48378c67-68a4-4f11-9dfb-eecdddf3a006'
         scriptType: 'bash'
         scriptLocation: 'scriptPath'
         scriptPath: '$(System.DefaultWorkingDirectory)/PostgreKeyRotation/Deployment/scripts/pg-deploy-staging.sh'
         workingDirectory: '$(System.DefaultWorkingDirectory)/PostgreKeyRotation/Deployment/scripts'
-        arguments: '"$(currentActiveRole)" "$(buildTag)" "<database-server-name>" "<database-name>"'
+        arguments: '"$(currentActiveRole)" "$(buildTag)" "samplepostgre01.postgres.database.azure.com" "samplepostgre01"'
 
 - stage: IntegrationTest
   dependsOn:
@@ -149,12 +149,12 @@ stages:
       displayName: 'Deploy Production'
       inputs:
         failOnStandardError: true
-        azureSubscription: '<azure-subscription-id>'
+        azureSubscription: '48378c67-68a4-4f11-9dfb-eecdddf3a006'
         scriptType: 'bash'
         scriptLocation: 'scriptPath'
         scriptPath: '$(System.DefaultWorkingDirectory)/PostgreKeyRotation/Deployment/scripts/pg-deploy-production.sh'
         workingDirectory: '$(System.DefaultWorkingDirectory)/PostgreKeyRotation/Deployment/scripts'
-        arguments: '"$(currentActiveRole)" "$(buildTag)" "<database-server-name>" "<database-name>"'
+        arguments: '"$(currentActiveRole)" "$(buildTag)" "samplepostgre01.postgres.database.azure.com" "samplepostgre01"'
 
     - task: Bash@3
       displayName: 'Installing PostgreSQL client'
@@ -171,7 +171,7 @@ stages:
         failOnStderr: true
         filePath: '$(System.DefaultWorkingDirectory)/PostgreKeyRotation/Deployment/scripts/pg-swap-active.sh'
         workingDirectory: '$(System.DefaultWorkingDirectory)/PostgreKeyRotation/Deployment/scripts'
-        arguments: '"$(currentActiveRole)" "<database-server-name>" "<database-name>" "<database-admin-role>"'
+        arguments: '"$(currentActiveRole)" "samplepostgre01.postgres.database.azure.com" "samplepostgre01" "Azureuser"'
 
     - task: Bash@3
       displayName: 'Set currentActiveRole variable'
